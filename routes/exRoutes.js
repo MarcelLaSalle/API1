@@ -3,7 +3,12 @@ const router = express.Router();
 
 const controller = require('../controller/exRoutes.js');
 const middleware = require('../middlewares/joiMiddleware');
+const joiSchemaValidation = require('../middlewares/joiMiddleware.js');
 const userSchema = require('../models/userSchema');
+
+router.get(`/details/:id`,
+    joiSchemaValidation.joiValidate(userSchema.userIdSchema, `path`),
+    controller.findById);
 
 router.get('/1', controller.ex1);
 router.get('/2', controller.ex2);

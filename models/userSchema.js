@@ -1,5 +1,6 @@
 const { not } = require("joi");
 const Joi = require("joi");
+Joi.objectId = require(`joi-objectid`)(Joi);
 
 module.exports.createUserSchema = Joi.object({
     //1: name: Joi.string().regex(/[a-zA-Z]/).max(20).min(3)
@@ -11,3 +12,7 @@ module.exports.createUserSchema = Joi.object({
     repeat_password: Joi.string().when('username', {is: !null, then: Joi.required}).when('username', {is: !null, then: Joi.required})
     }
 )
+
+module.exports.userIdSchema = Joi.object({
+    id: Joi.objectId().required()
+});
