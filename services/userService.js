@@ -21,3 +21,26 @@ module.exports.findById = async (userId) => {
     }
     return responseObj;
 };
+
+module.exports.getAll = async (skip, limit) => {
+    const responseObj = { status: false };
+    try {
+        const data = {
+            model: Film,
+            projection: {},
+            findQuery: {
+            },
+            skip,
+            limit
+        };
+        const responseFromRepository = await crudRepository.getAll(data);
+        if (responseFromRepository.status) {
+            responseObj.result = responseFromRepository.result;
+            responseObj.status = true;
+        }
+    } catch (error) {
+        responseObj.error = error;
+        console.log(`ERROR-userService-getAll: ${error}`);
+    }
+    return responseObj;
+};

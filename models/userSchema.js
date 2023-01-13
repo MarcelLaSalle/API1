@@ -16,3 +16,8 @@ module.exports.createUserSchema = Joi.object({
 module.exports.userIdSchema = Joi.object({
     id: Joi.objectId().required()
 });
+
+module.exports.usersPagination = Joi.object({
+    skip: Joi.number().integer().optional(),
+    limit: Joi.number().integer().optional()
+}).and('skip', 'limit');

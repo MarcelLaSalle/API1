@@ -12,3 +12,18 @@ module.exports.findById = async (data) => {
     }
     return responseObj;
 };
+
+module.exports.getAll = async (data) => {
+    let responseObj = { status: false };
+    try {
+        const doc = await data.model.find(data.findQuery, data.projection).skip(data.skip).limit(data.limit);
+        responseObj = {
+            result: doc,
+            status: true
+        };
+    } catch (error) {
+        responseObj.error = error;
+        console.log(`ERROR-crudRepository-getAll: ${error}`);
+    }
+    return responseObj;
+};

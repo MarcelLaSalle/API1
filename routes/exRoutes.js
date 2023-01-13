@@ -9,6 +9,16 @@ const userSchema = require('../models/userSchema');
 router.get(`/details/:id`,
     joiSchemaValidation.joiValidate(userSchema.userIdSchema, `path`),
     controller.findById);
+router.get('/users',
+    joiSchemaValidation.joiValidate(userSchema.usersPagination, 'query'),
+    controller.getAll
+);
+
+router.get('/films/list',
+    joiSchemaValidation.joiValidate(userSchema.usersPagination, 'query'),
+    controller.getAll
+);
+
 
 router.get('/1', controller.ex1);
 router.get('/2', controller.ex2);

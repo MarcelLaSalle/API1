@@ -268,3 +268,27 @@ module.exports.findById = async (req, res) => {
     }
     return res.status(responseObj.status).send(responseObj);
 };
+
+module.exports.getAll = async (req, res) => {
+    const responseObj = { status: 500, message: `Internal server error` };
+    try {
+        const skip = req.query.skip;
+        const limit = req.query.limit;
+        const userId = req.params.id;
+        const responseFromService = await userService.getAll(skip, limit);
+        if (responseFromService.status) {
+            if (responseFromService.result) {
+                responseObj.body = responseFromService.result;
+                responseObj.message = `Users fetched successfully`;
+                responseObj.status = 200;
+            } else {
+                responseObj.message = `Users not found`;
+                responseObj.status = 404;
+            }
+        }
+    } catch (error) {
+        responseObj.error = error;
+        console.log(`ERROR-userController-getAll: ${error}`);
+    }
+    return res.status(responseObj.status).send(responseObj);
+};
