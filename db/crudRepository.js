@@ -27,3 +27,50 @@ module.exports.getAll = async (data) => {
     }
     return responseObj;
 };
+
+module.exports.create = async(objToSave) => {
+    try {
+        const doc = await objToSave.save();
+        return {
+            status: true,
+            result: doc
+        }
+    } catch (err) {
+    console.log('Repository-create:', err);
+    return { status: false };
+    }
+}
+
+module.exports.update = async (data) => {
+    try {
+    const doc = await data.model.findOneAndUpdate(data.findQuery, data.findUpdate, {
+        projection: data.projection,
+        new: true,
+        useFindAndModify: false,
+    });
+    if (doc) {
+        return {
+        status: true,
+        result: doc
+        };
+    }
+    } catch (err) {
+    console.log('Repository-update:', err);
+    }
+    return { status: false };
+}
+
+module.exports.delete = async (data) => {
+    try {
+    const doc = await data.model.findOneAndDelete(data.findQuery, { projection: data.projection });
+    if (doc) {
+        return {
+        status: true,
+        result: doc
+        }
+    }
+    } catch (err) {
+    console.log('Repository-delete:', err);
+    }
+    return { status: false };
+}

@@ -11,7 +11,7 @@ module.exports.joiValidate = (schema, validation) => {
             const errorMessages = result.error.details.map(error => error.message);
             res.status(400).send(errorMessages);
         }else {
-            next()
+            next();
         }
     }
 }
